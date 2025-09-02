@@ -62,6 +62,12 @@ void Update()
 
     ColorType GetNextColorType()
     {
+            // First 5 tiles (or however many you want) should be red
+        if (tilesSpawned < 5)
+        {
+        return ColorType.Red;
+        }
+        
         if (tilesLeftInStreak > 0)
         {
             tilesLeftInStreak--;
