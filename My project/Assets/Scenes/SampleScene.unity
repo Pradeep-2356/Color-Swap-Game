@@ -1597,6 +1597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450653075857490}
   - component: {fileID: 919132148604746475}
+  - component: {fileID: 919132148604746478}
   - component: {fileID: 919132148604746474}
   - component: {fileID: 919132148604746477}
   - component: {fileID: 919132148604746476}
@@ -1707,6 +1708,27 @@ MonoBehaviour:
   maxSpeed: 15
   tilesPerLevel: 40
   maxLevel: 10
+--- !u!65 &919132148604746478
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148604746472}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5240029, y: 1.4923705, z: 0.6406468}
+  m_Center: {x: -0.018307514, y: 0.7221819, z: 0.15791003}
 --- !u!1 &980721564727273949
 GameObject:
   m_ObjectHideFlags: 0

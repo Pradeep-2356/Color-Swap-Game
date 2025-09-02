@@ -8,30 +8,24 @@ public class TileSpawner : MonoBehaviour
     public Transform player;
 
     private float spawnZ;
-    private int safeZone = 15;
-    private int tilesOnScreen = 10;
-
-    private int currentLevel = 1;
     private int tilesSpawned = 0;
+    private int currentLevel = 1;
 
-    private Color currentStreakColor;
+    private ColorType currentStreakColor;
     private int tilesLeftInStreak = 0;
-public int lookAheadTiles = 5; // Number of tiles ahead player can see
+
+    public int lookAheadTiles = 5;
 
     void Start()
     {
         spawnZ = player.position.z;
-
-        for (int i = 0; i < initialTiles; i++)
-        {
-            SpawnTile();
-        }
+        for (int i = 0; i < initialTiles; i++) SpawnTile();
     }
-
 
 void Update()
 {
-    // Spawn tiles until there are enough ahead of player
+    if (GameManager.isGameOver) return;
+
     while (spawnZ - player.position.z < lookAheadTiles * tileLength)
     {
         SpawnTile();
@@ -45,17 +39,20 @@ void Update()
         GameObject go = Instantiate(tilePrefab, spawnPos, Quaternion.identity);
         go.transform.SetParent(transform);
 
-        // Assign color
         Renderer rend = go.GetComponent<Renderer>();
+        Tile tileScript = go.AddComponent<Tile>(); // give tile logic
+
+        ColorType ct = GetNextColorType();
+        tileScript.tileColorType = ct;
+
         if (rend != null)
         {
-            rend.material.color = GetNextColor();
+            rend.material.color = ColorFromType(ct);
         }
 
         spawnZ += tileLength;
         tilesSpawned++;
 
-        // Level up every 40 tiles (slower progression)
         if (tilesSpawned % 40 == 0)
         {
             currentLevel++;
@@ -63,7 +60,7 @@ void Update()
         }
     }
 
-    Color GetNextColor()
+    ColorType GetNextColorType()
     {
         if (tilesLeftInStreak > 0)
         {
@@ -71,10 +68,8 @@ void Update()
             return currentStreakColor;
         }
 
-        // Decide streak length based on current level (gradual change)
         int streakLength = GetStreakLengthForLevel(currentLevel);
-
-        currentStreakColor = GetRandomColor();
+        currentStreakColor = (ColorType)Random.Range(0, 4);
         tilesLeftInStreak = streakLength - 1;
 
         return currentStreakColor;
@@ -82,22 +77,22 @@ void Update()
 
     int GetStreakLengthForLevel(int level)
     {
-        if (level == 1) return Random.Range(5, 7);   // very easy, long streak
-        if (level <= 3) return Random.Range(4, 6);   // still easy
-        if (level <= 5) return Random.Range(3, 5);   // moderate
-        if (level <= 8) return Random.Range(2, 4);   // harder
-        return Random.Range(1, 3);                   // very challenging
+        if (level == 1) return Random.Range(5, 7);
+        if (level <= 3) return Random.Range(4, 6);
+        if (level <= 5) return Random.Range(3, 5);
+        if (level <= 8) return Random.Range(2, 4);
+        return Random.Range(1, 3);
     }
 
-    Color GetRandomColor()
+    Color ColorFromType(ColorType ct)
     {
-        int rand = Random.Range(0, 4);
-        switch (rand)
+        switch (ct)
         {
-            case 0: return Color.red;
-            case 1: return Color.green;
-            case 2: return Color.blue;
-            default: return Color.yellow;
+            case ColorType.Red: return Color.red;
+            case ColorType.Blue: return Color.blue;
+            case ColorType.Green: return Color.green;
+            case ColorType.Yellow: return Color.yellow;
         }
+        return Color.white;
     }
 }
