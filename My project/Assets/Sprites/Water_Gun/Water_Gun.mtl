@@ -1,0 +1,54 @@
+# Blender MTL File: 'None'
+# Material Count: 4
+
+newmtl Base1
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-0ytk8w6j\\Image_7.png
+map_Kd C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-1hrom3k_\\Image_4.png
+map_Ke C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-m1ci55tj\\Image_6.jpg
+map_d C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-1hrom3k_\\Image_4.png
+
+newmtl BotParts
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-x9_x0l5r\\Image_3.png
+map_Kd C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-0c_160kd\\Image_0.png
+map_Ke C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-b38jicru\\Image_2.jpg
+map_d C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-0c_160kd\\Image_0.png
+
+newmtl FlatParts
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-w0gk5wex\\Image_11.png
+map_Kd C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-s00aih9e\\Image_8.png
+map_Ke C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-7nb86d4x\\Image_10.jpg
+map_d C:\\Users\\ppghs\\AppData\\Local\\Temp\\gltfimg-s00aih9e\\Image_8.png
+
+newmtl Material.004
+Ns 715.791277
+Ka 1.000000 1.000000 1.000000
+Kd 0.227303 0.536399 0.911789
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.632383
+illum 9

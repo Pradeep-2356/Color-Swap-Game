@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TileSpawner : MonoBehaviour
 {
+    [Header("Tile Settings")]
     public GameObject tilePrefab;
     public int initialTiles = 10;
     public float tileLength = 2f;
@@ -16,22 +17,26 @@ public class TileSpawner : MonoBehaviour
 
     public int lookAheadTiles = 5;
 
+    [Header("Props Settings")]
+    public GameObject[] propPrefabs;                     // obstacles + powerups
+    [Range(0f, 1f)] public float propSpawnChance = 0.35f;
+    public Vector3 propOffset = new Vector3(0f, 0.6f, 0f);
+    public float minPropSpacing = 4f;                    // in Z units
+    private float lastPropZ = -999f;
+
     void Start()
     {
         spawnZ = player.position.z;
         for (int i = 0; i < initialTiles; i++) SpawnTile();
     }
 
-void Update()
-{
-    if (GameManager.isGameOver) return;
-
-    while (spawnZ - player.position.z < lookAheadTiles * tileLength)
+    void Update()
     {
-        SpawnTile();
-    }
-}
+        if (GameManager.isGameOver) return;
 
+        while (spawnZ - player.position.z < lookAheadTiles * tileLength)
+            SpawnTile();
+    }
 
     void SpawnTile()
     {
@@ -40,15 +45,15 @@ void Update()
         go.transform.SetParent(transform);
 
         Renderer rend = go.GetComponent<Renderer>();
-        Tile tileScript = go.AddComponent<Tile>(); // give tile logic
+        Tile tileScript = go.AddComponent<Tile>();
 
         ColorType ct = GetNextColorType();
         tileScript.tileColorType = ct;
 
         if (rend != null)
-        {
             rend.material.color = ColorFromType(ct);
-        }
+
+        TrySpawnProp(go.transform);   // <-- props here
 
         spawnZ += tileLength;
         tilesSpawned++;
@@ -60,14 +65,64 @@ void Update()
         }
     }
 
+void TrySpawnProp(Transform tileTransform)
+{
+    if (propPrefabs == null || propPrefabs.Length == 0) return;
+    if (Random.value >= propSpawnChance) return;
+    if (spawnZ - lastPropZ < minPropSpacing) return;
+
+    GameObject prefab = propPrefabs[Random.Range(0, propPrefabs.Length)];
+
+    float randomX = Random.Range(-0.7f, 0.7f);
+    Vector3 worldPos = tileTransform.position + propOffset + new Vector3(randomX, 0, 0);
+
+    // Instantiate without modifying scale or rotation yet
+    GameObject prop = Instantiate(prefab, worldPos, prefab.transform.rotation);
+
+    // Detach first to avoid scale inheritance issues
+    prop.transform.SetParent(null);
+
+    // Restore prefab's original scale and rotation (defensive)
+    prop.transform.localScale = prefab.transform.localScale;
+    prop.transform.rotation = prefab.transform.rotation;
+
+    // Parent to tile after fixing scale/rotation
+    prop.transform.SetParent(tileTransform, true);
+
+    // Fix particle systems
+    var sourceChildren = prefab.GetComponentsInChildren<Transform>(true);
+    var spawnedParticles = prop.GetComponentsInChildren<ParticleSystem>(true);
+    foreach (var ps in spawnedParticles)
+    {
+        var main = ps.main;
+        main.simulationSpace = ParticleSystemSimulationSpace.Local;
+        main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+
+        Transform srcMatch = FindDeepChildByName(sourceChildren, ps.transform.name);
+        if (srcMatch != null)
+        {
+            ps.transform.localRotation = srcMatch.localRotation;
+        }
+    }
+
+    lastPropZ = spawnZ;
+}
+
+
+    // helper: find a matching child Transform by name in the prefab's children list (returns first match)
+    Transform FindDeepChildByName(Transform[] list, string name)
+    {
+        foreach (var t in list)
+        {
+            if (t.name == name) return t;
+        }
+        return null;
+    }
+
     ColorType GetNextColorType()
     {
-            // First 5 tiles (or however many you want) should be red
-        if (tilesSpawned < 5)
-        {
-        return ColorType.Red;
-        }
-        
+        if (tilesSpawned < 5) return ColorType.Red;
+
         if (tilesLeftInStreak > 0)
         {
             tilesLeftInStreak--;
@@ -98,7 +153,7 @@ void Update()
             case ColorType.Blue: return Color.blue;
             case ColorType.Green: return Color.green;
             case ColorType.Yellow: return Color.yellow;
+            default: return Color.white;
         }
-        return Color.white;
     }
 }
