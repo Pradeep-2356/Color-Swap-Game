@@ -10008,6 +10008,7 @@ GameObject:
   - component: {fileID: 1003369630943735755}
   - component: {fileID: 6110306827624861740}
   - component: {fileID: 6555419344084070230}
+  - component: {fileID: 7599704350160771413}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -10076,6 +10077,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4903418, y: 1, z: 1.0306516}
   m_Center: {x: -0.017256629, y: 0, z: -0.009311964}
+--- !u!114 &7599704350160771413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5304243464701395395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d899d3aa0ee44149ab2ec33ca3401c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerPrefab: {fileID: 1060131578365294859, guid: a15715272a9df164294d6651dcb69320, type: 3}
+  propType: 3
 --- !u!1 &6692311596050744262
 GameObject:
   m_ObjectHideFlags: 0

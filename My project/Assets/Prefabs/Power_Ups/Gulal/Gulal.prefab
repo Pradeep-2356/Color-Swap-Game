@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5085032546402563410}
   - component: {fileID: 6289048581089589015}
+  - component: {fileID: 8641956113457899589}
   m_Layer: 0
   m_Name: Gulal
   m_TagString: Untagged
@@ -55,6 +56,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.9174008, y: 2.406018, z: 2.0944798}
   m_Center: {x: 0.029394004, y: 0.7030089, z: 4.8504815}
+--- !u!114 &8641956113457899589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054930183630144096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d899d3aa0ee44149ab2ec33ca3401c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerPrefab: {fileID: 1060131578365294859, guid: a15715272a9df164294d6651dcb69320, type: 3}
+  propType: 1
 --- !u!1 &4369989188836110933
 GameObject:
   m_ObjectHideFlags: 0

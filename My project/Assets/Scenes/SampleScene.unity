@@ -1499,7 +1499,7 @@ MonoBehaviour:
   - {fileID: 5304243464701395395, guid: f4af7f9104704e54080ff653f023c60b, type: 3}
   propSpawnChance: 0.3
   propOffset: {x: 0, y: 1, z: 0}
-  minPropSpacing: 10
+  minPropSpacing: 16
 --- !u!1 &425623436789594847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,7 +1614,7 @@ GameObject:
   - component: {fileID: 919132148604746476}
   m_Layer: 0
   m_Name: Player 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6524800699012631278}
   - component: {fileID: 7593297011188887328}
   - component: {fileID: -4856371980258257764}
+  - component: {fileID: 2745648508389492842}
   m_Layer: 0
   m_Name: CFXR Water Ripples
   m_TagString: Untagged
@@ -4983,3 +4984,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9846342, y: 1.6581906, z: 1}
   m_Center: {x: -0.00018644333, y: 0.00015690923, z: -4.9509117e-19}
+--- !u!114 &2745648508389492842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664636140143649878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d899d3aa0ee44149ab2ec33ca3401c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerPrefab: {fileID: 1060131578365294859, guid: a15715272a9df164294d6651dcb69320, type: 3}
+  propType: 0

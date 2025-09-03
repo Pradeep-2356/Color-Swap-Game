@@ -15025,6 +15025,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4181939948503954456}
   - component: {fileID: 7861219437995973179}
+  - component: {fileID: 4076864090524686479}
   m_Layer: 0
   m_Name: Water_Gun
   m_TagString: Untagged
@@ -15070,3 +15071,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 390.39786, y: 180.11855, z: 223.39636}
   m_Center: {x: 3.1529129, y: -10.529675, z: -4.202851}
+--- !u!114 &4076864090524686479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6605396278249056764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d899d3aa0ee44149ab2ec33ca3401c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerPrefab: {fileID: 1060131578365294859, guid: a15715272a9df164294d6651dcb69320, type: 3}
+  propType: 4

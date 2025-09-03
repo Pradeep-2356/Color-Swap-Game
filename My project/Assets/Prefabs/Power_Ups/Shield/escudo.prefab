@@ -20886,6 +20886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5167116853001095656}
   - component: {fileID: 1678972756504205903}
+  - component: {fileID: 7402285430585135190}
   m_Layer: 0
   m_Name: escudo
   m_TagString: Untagged
@@ -20931,6 +20932,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.2977886, y: 1, z: 4.669523}
   m_Center: {x: 0.2208914, y: 0, z: -1.97558}
+--- !u!114 &7402285430585135190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672496080888503521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d899d3aa0ee44149ab2ec33ca3401c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerPrefab: {fileID: 1060131578365294859, guid: a15715272a9df164294d6651dcb69320, type: 3}
+  propType: 2
 --- !u!1 &9164410407525943970
 GameObject:
   m_ObjectHideFlags: 0
