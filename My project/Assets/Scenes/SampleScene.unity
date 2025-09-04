@@ -1491,7 +1491,7 @@ MonoBehaviour:
   lookAheadTiles: 5
   propPrefabs:
   - {fileID: 1087619279786764859, guid: 34fd72df3ea5a01419ef30b94accdb47, type: 3}
-  - {fileID: 2122124560220267395, guid: 65ca29f1d47335241816365f2c3f6f4a, type: 3}
+  - {fileID: 5714110152674857582, guid: aab8be57da6f39545bb9b5762c5403ab, type: 3}
   - {fileID: 2664636140143649878, guid: 7ef7185d41b4bb44da68c6285993caeb, type: 3}
   - {fileID: 8672496080888503521, guid: a1190c8d47595a640b5eb85c45903752, type: 3}
   - {fileID: 6821643486874587115, guid: 0cd3d8ea4b5c64d41836309d65ee5af5, type: 3}

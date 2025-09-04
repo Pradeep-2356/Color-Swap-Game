@@ -172,6 +172,7 @@ void OnTriggerEnter(Collider other)
 
     //Shield Logic->
     public bool hasShield = false;
+
 public GameObject shieldParticlePrefab;  // Assign your shield particle prefab in Inspector
 private GameObject activeShieldParticle; // reference to the instantiated particle
 

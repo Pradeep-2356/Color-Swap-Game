@@ -5,29 +5,36 @@ public class Prop : MonoBehaviour
     public GameObject timerPrefab;  
     public PropType propType = PropType.None; // default
 
-    private void OnTriggerEnter(Collider other)
+private void OnTriggerEnter(Collider other)
+{
+    if (!other.CompareTag("Player")) return;
+
+    // Timer and task only for real props
+    if (propType != PropType.None)
     {
-        if (!other.CompareTag("Player")) return;
+        PerformTask(other.gameObject);
 
-        // Timer should only appear for real props, not distractions
-        if (propType != PropType.None)
+        if (timerPrefab != null)
         {
-            PerformTask(other.gameObject);
-
-            if (timerPrefab != null)
+            Canvas canvas = FindObjectOfType<Canvas>();
+            if (canvas != null)
             {
-                Canvas canvas = FindObjectOfType<Canvas>();
-                if (canvas != null)
-                {
-                    GameObject timer = Instantiate(timerPrefab, canvas.transform);
-                    Destroy(timer, 5f);
-                }
+                GameObject timer = Instantiate(timerPrefab, canvas.transform);
+                Destroy(timer, 5f);
             }
         }
 
-        // ✅ Destroy ALL props, including distractions
+        // Destroy real prop immediately
         Destroy(gameObject);
     }
+    else
+    {
+        // For distraction props (propType.None)
+        // Optionally make them disappear after some time instead of destroying immediately
+        float distractionDuration = 5f; // for example
+        Destroy(gameObject, distractionDuration);
+    }
+}
 
     void PerformTask(GameObject player)
     {
@@ -44,7 +51,7 @@ public class Prop : MonoBehaviour
                 TileSpawner spawner = FindObjectOfType<TileSpawner>();
                 if (spawner != null && pc != null)
                 {
-                    spawner.ActivateGulal(pc.currentColor, 5f); // use player's current color
+                    spawner.ActivateGulal(pc.currentColor, 10f); // use player's current color
                 }
                 break;
 
