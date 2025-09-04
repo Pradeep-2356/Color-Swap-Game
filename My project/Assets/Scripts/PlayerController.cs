@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
     bool isGrounded = true;
-    bool isDucking = false;
+    public bool isDucking = false;    // made public so other scripts can check if needed
     Vector2 touchStart;
     float swipeThreshold = 80f;
 
@@ -41,14 +41,13 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator();
     }
 
-void FixedUpdate()
-{
-    if (GameManager.isGameOver) return; // 🚨 Stop movement when game over
+    void FixedUpdate()
+    {
+        if (GameManager.isGameOver) return; // 🚨 Stop movement when game over
 
-    rb.MovePosition(transform.position + Vector3.forward * forwardSpeed * Time.fixedDeltaTime);
-    UpdateLevelSpeed();
-}
-
+        rb.MovePosition(transform.position + Vector3.forward * forwardSpeed * Time.fixedDeltaTime);
+        UpdateLevelSpeed();
+    }
 
     void HandleKeyboard()
     {
@@ -99,11 +98,29 @@ void FixedUpdate()
         isGrounded = false;
     }
 
-    IEnumerator Duck()
+    // Keep this coroutine for player-initiated duck
+    public IEnumerator Duck()
     {
         if (isDucking) yield break;
         isDucking = true;
         yield return new WaitForSeconds(duckDuration);
+        isDucking = false;
+    }
+
+    // Public API other scripts (props) can call to force the duck animation for specific duration
+    public void ForceDuck(float overrideDuration = -1f)
+    {
+        if (isDucking) return; // if already ducking, ignore
+        if (overrideDuration > 0f)
+            StartCoroutine(ForcedDuckRoutine(overrideDuration));
+        else
+            StartCoroutine(Duck());
+    }
+
+    IEnumerator ForcedDuckRoutine(float dur)
+    {
+        isDucking = true;
+        yield return new WaitForSeconds(dur);
         isDucking = false;
     }
 
@@ -116,21 +133,19 @@ void FixedUpdate()
         }
     }
 
-void OnTriggerEnter(Collider other)
-{
-    Tile tile = other.GetComponent<Tile>();
-    if (tile != null)
+    void OnTriggerEnter(Collider other)
     {
-        if (tile.tileColorType != currentColor)
+        Tile tile = other.GetComponent<Tile>();
+        if (tile != null)
         {
-            GameManager.GameOver();
-            rb.linearVelocity = Vector3.zero; // cancel momentum immediately
-            animator.SetBool("IsGameOver", true); // 🚨 trigger idle state
+            if (tile.tileColorType != currentColor)
+            {
+                GameManager.GameOver();
+                rb.linearVelocity = Vector3.zero; // cancel momentum immediately
+                animator.SetBool("IsGameOver", true); // 🚨 trigger idle state
+            }
         }
     }
-}
-
-
 
     void UpdateAnimator()
     {

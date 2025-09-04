@@ -20888,7 +20888,7 @@ GameObject:
   - component: {fileID: 1678972756504205903}
   - component: {fileID: 7402285430585135190}
   m_Layer: 0
-  m_Name: escudo
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20945,7 +20945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerPrefab: {fileID: 1060131578365294859, guid: a15715272a9df164294d6651dcb69320, type: 3}
-  propType: 2
+  propType: 3
 --- !u!1 &9164410407525943970
 GameObject:
   m_ObjectHideFlags: 0

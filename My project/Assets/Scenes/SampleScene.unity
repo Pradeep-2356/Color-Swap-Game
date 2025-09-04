@@ -1494,12 +1494,12 @@ MonoBehaviour:
   - {fileID: 2122124560220267395, guid: 65ca29f1d47335241816365f2c3f6f4a, type: 3}
   - {fileID: 2664636140143649878, guid: 7ef7185d41b4bb44da68c6285993caeb, type: 3}
   - {fileID: 8672496080888503521, guid: a1190c8d47595a640b5eb85c45903752, type: 3}
-  - {fileID: 6605396278249056764, guid: 0cd3d8ea4b5c64d41836309d65ee5af5, type: 3}
-  - {fileID: 1054930183630144096, guid: a0a1fe92c9caaa94790564b08a2fd770, type: 3}
-  - {fileID: 5304243464701395395, guid: f4af7f9104704e54080ff653f023c60b, type: 3}
+  - {fileID: 6821643486874587115, guid: 0cd3d8ea4b5c64d41836309d65ee5af5, type: 3}
+  - {fileID: 8149572076104757316, guid: a0a1fe92c9caaa94790564b08a2fd770, type: 3}
+  - {fileID: 4917393682286436727, guid: f4af7f9104704e54080ff653f023c60b, type: 3}
   propSpawnChance: 0.3
   propOffset: {x: 0, y: 1, z: 0}
-  minPropSpacing: 16
+  minPropSpacing: 8
 --- !u!1 &425623436789594847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1719,6 +1719,7 @@ MonoBehaviour:
   maxSpeed: 15
   tilesPerLevel: 40
   maxLevel: 10
+  isDucking: 0
 --- !u!65 &919132148604746478
 BoxCollider:
   m_ObjectHideFlags: 0
