@@ -69,6 +69,12 @@ private void OnTriggerEnter(Collider other)
 
             case PropType.WaterGun:
                 Debug.Log("Clears gulal clouds instantly");
+                    if (pc != null)
+                    {
+                        pc.hasWaterGun = true;
+                        if (pc.waterGunIcon != null)
+                        pc.waterGunIcon.SetActive(true); // show icon on canvas
+                    }
                 break;
         }
     }

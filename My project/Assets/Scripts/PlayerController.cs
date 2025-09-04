@@ -27,6 +27,11 @@ public class PlayerController : MonoBehaviour
     private int tilesPassed = 0;
     private float forwardSpeed;
 
+    [Header("WaterGun UI")]
+    public GameObject waterGunIcon;  // assign the UI Image for watergun
+    [HideInInspector]
+    public bool hasWaterGun = false; // tracks if player owns it
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -39,6 +44,38 @@ public class PlayerController : MonoBehaviour
         HandleKeyboard();
         HandleTouch();
         UpdateAnimator();
+
+            // PC activation
+    if (hasWaterGun && Input.GetKeyDown(KeyCode.F))  // example: F key
+    {
+        ActivateWaterGun();
+    }
+}
+
+// Android activation via UI button
+public void OnWaterGunIconPressed()
+{
+    if (hasWaterGun)
+        ActivateWaterGun();
+}
+
+void ActivateWaterGun()
+{
+    Debug.Log("WaterGun Activated! Clearing clouds.");
+
+    // Find all clouds and destroy
+    Cloud[] clouds = FindObjectsOfType<Cloud>();
+    foreach (var c in clouds)
+    {
+        Destroy(c.gameObject);
+    }
+
+    // Remove the WaterGun from player
+    hasWaterGun = false;
+
+    // Hide UI icon
+    if (waterGunIcon != null)
+        waterGunIcon.SetActive(false);
     }
 
     void FixedUpdate()
