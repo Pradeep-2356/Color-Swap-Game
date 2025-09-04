@@ -50,6 +50,10 @@ public class Prop : MonoBehaviour
 
             case PropType.Shield:
                 Debug.Log("Saves player from wrong match.");
+                if (pc != null)
+                {
+                    pc.ActivateShield(5f); // shield active for 5 seconds
+                }
                 break;
 
             case PropType.Star:

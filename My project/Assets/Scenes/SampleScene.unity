@@ -1720,6 +1720,8 @@ MonoBehaviour:
   tilesPerLevel: 40
   maxLevel: 10
   isDucking: 0
+  hasShield: 0
+  shieldParticlePrefab: {fileID: 2453812271266890379, guid: 4bf1fbc1ea30a9e4ba99a979128563f6, type: 3}
 --- !u!65 &919132148604746478
 BoxCollider:
   m_ObjectHideFlags: 0

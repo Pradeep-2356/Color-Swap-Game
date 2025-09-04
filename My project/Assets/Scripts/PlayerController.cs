@@ -133,19 +133,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+void OnTriggerEnter(Collider other)
+{
+    Tile tile = other.GetComponent<Tile>();
+    if (tile != null)
     {
-        Tile tile = other.GetComponent<Tile>();
-        if (tile != null)
+        if (tile.tileColorType != currentColor)
         {
-            if (tile.tileColorType != currentColor)
+            if (hasShield)
+            {
+                Debug.Log("Shield protected the player from mismatch!");
+                // no game over, just ignore this mismatch
+            }
+            else
             {
                 GameManager.GameOver();
-                rb.linearVelocity = Vector3.zero; // cancel momentum immediately
-                animator.SetBool("IsGameOver", true); // 🚨 trigger idle state
+                rb.linearVelocity = Vector3.zero;
+                animator.SetBool("IsGameOver", true);
             }
         }
     }
+}
+
 
     void UpdateAnimator()
     {
@@ -160,4 +169,42 @@ public class PlayerController : MonoBehaviour
         float t = (float)(clampedLevel - 1) / (maxLevel - 1);
         forwardSpeed = Mathf.Lerp(minSpeed, maxSpeed, t);
     }
+
+    //Shield Logic->
+    public bool hasShield = false;
+public GameObject shieldParticlePrefab;  // Assign your shield particle prefab in Inspector
+private GameObject activeShieldParticle; // reference to the instantiated particle
+
+    
+public void ActivateShield(float duration = 5f)
+    {
+        if (hasShield) CancelInvoke(nameof(DeactivateShield)); // reset timer if already active
+
+        hasShield = true;
+        Debug.Log("Shield Activated for " + duration + " seconds!");
+
+        // Spawn particle effect
+        if (shieldParticlePrefab != null)
+        {
+            if (activeShieldParticle != null) Destroy(activeShieldParticle); // remove old if any
+            activeShieldParticle = Instantiate(shieldParticlePrefab, transform.position, Quaternion.identity, transform);
+        }
+
+        Invoke(nameof(DeactivateShield), duration);
+    }
+
+public void DeactivateShield()
+{
+    hasShield = false;
+    Debug.Log("Shield Deactivated!");
+
+    // Destroy particle effect
+    if (activeShieldParticle != null)
+    {
+        Destroy(activeShieldParticle);
+        activeShieldParticle = null;
+    }
+}
+
+
 }
