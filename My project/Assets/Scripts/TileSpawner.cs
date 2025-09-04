@@ -24,6 +24,11 @@ public class TileSpawner : MonoBehaviour
     public float minPropSpacing = 4f;                    // in Z units
     private float lastPropZ = -999f;
 
+    [Header("For Gulal")]
+    private bool forceSingleColor = false;
+    private ColorType forcedColor;
+    private float forceColorTimer = 0f;
+
     void Start()
     {
         spawnZ = player.position.z;
@@ -33,6 +38,17 @@ public class TileSpawner : MonoBehaviour
     void Update()
     {
         if (GameManager.isGameOver) return;
+
+        // countdown forced mode
+        if (forceSingleColor && forceColorTimer > 0f)
+        {
+            forceColorTimer -= Time.deltaTime;
+            if (forceColorTimer <= 0f)
+            {
+                forceSingleColor = false;
+                Debug.Log("Gulal effect ended, back to normal tiles.");
+            }
+        }
 
         while (spawnZ - player.position.z < lookAheadTiles * tileLength)
             SpawnTile();
@@ -65,48 +81,48 @@ public class TileSpawner : MonoBehaviour
         }
     }
 
-void TrySpawnProp(Transform tileTransform)
-{
-    if (propPrefabs == null || propPrefabs.Length == 0) return;
-    if (Random.value >= propSpawnChance) return;
-    if (spawnZ - lastPropZ < minPropSpacing) return;
-
-    GameObject prefab = propPrefabs[Random.Range(0, propPrefabs.Length)];
-
-    float randomX = Random.Range(-0.7f, 0.7f);
-    Vector3 worldPos = tileTransform.position + propOffset + new Vector3(randomX, 0, 0);
-
-    // Instantiate without modifying scale or rotation yet
-    GameObject prop = Instantiate(prefab, worldPos, prefab.transform.rotation);
-
-    // Detach first to avoid scale inheritance issues
-    prop.transform.SetParent(null);
-
-    // Restore prefab's original scale and rotation (defensive)
-    prop.transform.localScale = prefab.transform.localScale;
-    prop.transform.rotation = prefab.transform.rotation;
-
-    // Parent to tile after fixing scale/rotation
-    prop.transform.SetParent(tileTransform, true);
-
-    // Fix particle systems
-    var sourceChildren = prefab.GetComponentsInChildren<Transform>(true);
-    var spawnedParticles = prop.GetComponentsInChildren<ParticleSystem>(true);
-    foreach (var ps in spawnedParticles)
+    void TrySpawnProp(Transform tileTransform)
     {
-        var main = ps.main;
-        main.simulationSpace = ParticleSystemSimulationSpace.Local;
-        main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+        if (propPrefabs == null || propPrefabs.Length == 0) return;
+        if (Random.value >= propSpawnChance) return;
+        if (spawnZ - lastPropZ < minPropSpacing) return;
 
-        Transform srcMatch = FindDeepChildByName(sourceChildren, ps.transform.name);
-        if (srcMatch != null)
+        GameObject prefab = propPrefabs[Random.Range(0, propPrefabs.Length)];
+
+        float randomX = Random.Range(-0.7f, 0.7f);
+        Vector3 worldPos = tileTransform.position + propOffset + new Vector3(randomX, 0, 0);
+
+        // Instantiate without modifying scale or rotation yet
+        GameObject prop = Instantiate(prefab, worldPos, prefab.transform.rotation);
+
+        // Detach first to avoid scale inheritance issues
+        prop.transform.SetParent(null);
+
+        // Restore prefab's original scale and rotation (defensive)
+        prop.transform.localScale = prefab.transform.localScale;
+        prop.transform.rotation = prefab.transform.rotation;
+
+        // Parent to tile after fixing scale/rotation
+        prop.transform.SetParent(tileTransform, true);
+
+        // Fix particle systems
+        var sourceChildren = prefab.GetComponentsInChildren<Transform>(true);
+        var spawnedParticles = prop.GetComponentsInChildren<ParticleSystem>(true);
+        foreach (var ps in spawnedParticles)
         {
-            ps.transform.localRotation = srcMatch.localRotation;
-        }
-    }
+            var main = ps.main;
+            main.simulationSpace = ParticleSystemSimulationSpace.Local;
+            main.scalingMode = ParticleSystemScalingMode.Hierarchy;
 
-    lastPropZ = spawnZ;
-}
+            Transform srcMatch = FindDeepChildByName(sourceChildren, ps.transform.name);
+            if (srcMatch != null)
+            {
+                ps.transform.localRotation = srcMatch.localRotation;
+            }
+        }
+
+        lastPropZ = spawnZ;
+    }
 
 
     // helper: find a matching child Transform by name in the prefab's children list (returns first match)
@@ -121,6 +137,9 @@ void TrySpawnProp(Transform tileTransform)
 
     ColorType GetNextColorType()
     {
+        if (forceSingleColor)
+            return forcedColor;
+
         if (tilesSpawned < 5) return ColorType.Red;
 
         if (tilesLeftInStreak > 0)
@@ -156,4 +175,21 @@ void TrySpawnProp(Transform tileTransform)
             default: return Color.white;
         }
     }
+
+    public void ActivateGulal(ColorType color, float duration)
+    {
+        forcedColor = color;
+        forceSingleColor = true;
+        forceColorTimer = duration;
+
+        // recolor all existing tiles
+        Tile[] allTiles = FindObjectsOfType<Tile>();
+        foreach (Tile t in allTiles)
+        {
+            t.SetColor(color);
+        }
+
+        Debug.Log("Gulal activated! Tiles are all " + color + " for " + duration + "s");
+    }
+
 }

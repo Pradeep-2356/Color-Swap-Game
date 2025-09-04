@@ -41,6 +41,11 @@ public class Prop : MonoBehaviour
 
             case PropType.Gulal:
                 Debug.Log("Turns all tiles to one color for 5s.");
+                TileSpawner spawner = FindObjectOfType<TileSpawner>();
+                if (spawner != null && pc != null)
+                {
+                    spawner.ActivateGulal(pc.currentColor, 5f); // use player's current color
+                }
                 break;
 
             case PropType.Shield:
