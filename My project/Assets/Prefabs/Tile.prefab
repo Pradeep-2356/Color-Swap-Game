@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4793337095138710864
+--- !u!1 &8692687998395853495
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 55907551415153691}
-  - component: {fileID: 5108264722490222250}
-  - component: {fileID: 9132792090160901540}
-  - component: {fileID: 5915312142736412883}
+  - component: {fileID: 5333145199825432294}
+  - component: {fileID: 9146488579929025951}
+  - component: {fileID: 8042434991427268744}
+  - component: {fileID: 1261140574127723985}
+  - component: {fileID: 1181977353581395280}
   m_Layer: 6
   m_Name: Tile
   m_TagString: Ground
@@ -19,36 +20,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &55907551415153691
+--- !u!4 &5333145199825432294
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793337095138710864}
+  m_GameObject: {fileID: 8692687998395853495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9634, y: 0.12776774, z: 1.9634}
+  m_LocalPosition: {x: 0, y: -0.187, z: -5.19}
+  m_LocalScale: {x: 1.8373169, y: 0.1195629, z: 1.8373169}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5108264722490222250
+--- !u!33 &9146488579929025951
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793337095138710864}
+  m_GameObject: {fileID: 8692687998395853495}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &9132792090160901540
+--- !u!23 &8042434991427268744
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793337095138710864}
+  m_GameObject: {fileID: 8692687998395853495}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,6 +60,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -84,13 +88,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5915312142736412883
+--- !u!65 &1261140574127723985
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4793337095138710864}
+  m_GameObject: {fileID: 8692687998395853495}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -105,3 +109,31 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1181977353581395280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692687998395853495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d8a635f12f17a543b24f4e3880e1508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePrefab: {fileID: 0}
+  initialTiles: 10
+  tileLength: 2
+  player: {fileID: 0}
+  lookAheadTiles: 5
+  propPrefabs:
+  - {fileID: 1087619279786764859, guid: 34fd72df3ea5a01419ef30b94accdb47, type: 3}
+  - {fileID: 5714110152674857582, guid: aab8be57da6f39545bb9b5762c5403ab, type: 3}
+  - {fileID: 2664636140143649878, guid: 7ef7185d41b4bb44da68c6285993caeb, type: 3}
+  - {fileID: 8672496080888503521, guid: a1190c8d47595a640b5eb85c45903752, type: 3}
+  - {fileID: 6821643486874587115, guid: 0cd3d8ea4b5c64d41836309d65ee5af5, type: 3}
+  - {fileID: 8149572076104757316, guid: a0a1fe92c9caaa94790564b08a2fd770, type: 3}
+  - {fileID: 4917393682286436727, guid: f4af7f9104704e54080ff653f023c60b, type: 3}
+  propSpawnChance: 0.3
+  propOffset: {x: 0, y: 1, z: 0}
+  minPropSpacing: 8
