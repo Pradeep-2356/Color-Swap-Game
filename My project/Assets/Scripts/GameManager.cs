@@ -9,20 +9,21 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Over UI")]
     public GameObject gameOverUI;
-    public TextMeshProUGUI scoreValueText;      // final score
-    public TextMeshProUGUI highScoreValueText;  // final high score
-    public TextMeshProUGUI newHighScoreText;    // "NEW HIGH SCORE!" badge
+    public TextMeshProUGUI scoreValueText;      
+    public TextMeshProUGUI highScoreValueText;  
+    public TextMeshProUGUI newHighScoreText;    
 
     [Header("Live Score UI")]
-    public TextMeshProUGUI liveScoreText;       // top-left live score
+    public TextMeshProUGUI liveScoreText;       
 
     [Header("Player Reference")]
-    public PlayerController player;             // assign Player in Inspector
+    public PlayerController player;             
 
-    private float currentScore = 0f;  // float for smoother increment
+    [Header("Settings Panel")]
+    public GameObject settingsPanel;   // <-- assign in Inspector
+
+    private float currentScore = 0f;  
     private int highScore = 0;
-
-    // ⭐ Star multiplier
     private int scoreMultiplier = 1;
     private Coroutine multiplierRoutine;
 
@@ -31,6 +32,9 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         Time.timeScale = 1f;
         gameOverUI.SetActive(false);
+
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false); // hide at start
 
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         if (highScoreValueText != null)
@@ -47,9 +51,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver || player == null) return;
 
-        // 🏃 Score grows with speed & time
         currentScore += player.forwardSpeed * Time.deltaTime * scoreMultiplier;
-
         UpdateUI();
     }
 
@@ -57,20 +59,16 @@ public class GameManager : MonoBehaviour
     {
         int displayScore = Mathf.FloorToInt(currentScore);
 
-        // Final score
         if (scoreValueText != null)
             scoreValueText.text = "Score: " + displayScore.ToString();
 
-        // Live score
         if (liveScoreText != null)
             liveScoreText.text = "Score: " + displayScore.ToString();
 
-        // High score
         if (highScoreValueText != null)
             highScoreValueText.text = "High Score: " + highScore.ToString();
     }
 
-    // ⭐ Called when player collects Star
     public void ActivateDoubleScore(float duration)
     {
         if (multiplierRoutine != null)
@@ -99,6 +97,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         gameOverUI.SetActive(true);
+        SettingsManager.Instance.StopBGM(); // stop BGM on Game Over
 
         int finalScore = Mathf.FloorToInt(currentScore);
 
@@ -136,6 +135,19 @@ public class GameManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        Debug.Log("Open settings panel here.");
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(true);
+            Debug.Log("Settings panel opened!");
+        }
+    }
+
+    public void CloseSettings()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(false);
+            Debug.Log("Settings panel closed!");
+        }
     }
 }

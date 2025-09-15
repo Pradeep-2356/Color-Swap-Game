@@ -21,6 +21,7 @@ public class MainMenu : MonoBehaviour
         isMuted = AudioListener.pause;
         musicOnIcon.SetActive(!isMuted);
         musicOffIcon.SetActive(isMuted);
+        BGMManager.Instance.PlayBGM();
     }
 
     public void PlayGame()

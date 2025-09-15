@@ -4,54 +4,66 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [Header("Pause Menu UI")]
-    public GameObject pauseMenuUI; // Pause panel
+    public GameObject pauseMenuUI;   // Pause panel
+    public GameObject settingsMenuUI; // If you have separate settings inside pause, optional
 
     private bool isPaused = false;
 
+    void Start()
+    {
+        // play BGM if manager present
+        if (BGMManager.Instance != null)
+            BGMManager.Instance.PlayBGM();
+    }
+
     void Update()
     {
-        // Escape key toggle (for PC testing / desktop build)
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
-                Resume();
-            else
-                Pause();
+            if (isPaused) Resume();
+            else Pause();
         }
     }
 
-    // Called when Pause icon (UI button) is clicked
     public void OnPauseButton()
     {
-        if (isPaused)
-            Resume();
-        else
-            Pause();
+        if (isPaused) Resume();
+        else Pause();
     }
 
-    public void Resume()
-    {
-        pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f; // resume game
-        isPaused = false;
-    }
+public void Resume()
+{
+    pauseMenuUI.SetActive(false);
+    Time.timeScale = 1f;
+    isPaused = false;
 
-    public void Pause()
-    {
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f; // freeze game
-        isPaused = true;
-    }
+    SettingsManager.Instance.PlayBGM(); // resume BGM
+}
+
+public void Pause()
+{
+    pauseMenuUI.SetActive(true);
+    Time.timeScale = 0f;
+    isPaused = true;
+
+    SettingsManager.Instance.StopBGM(); // stop BGM when paused
+}
 
     public void RestartGame()
     {
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        // resume BGM after restart
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.PlayBGM();
+        else if (BGMManager.Instance != null)
+            BGMManager.Instance.PlayBGM();
     }
 
     public void QuitGame()
     {
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
         Application.Quit();
 
 #if UNITY_EDITOR
@@ -59,9 +71,27 @@ public class PauseMenu : MonoBehaviour
 #endif
     }
 
+    // Open settings using SettingsManager so back navigation goes to pause
     public void OpenSettings()
     {
-        pauseMenuUI.SetActive(false);
-        Debug.Log("Settings button pressed. Implement your settings UI here.");
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.OpenSettings("Pause");
+        else
+        {
+            // fallback: just show a local settings UI if you have one
+            if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+            if (settingsMenuUI != null) settingsMenuUI.SetActive(true);
+        }
+    }
+
+    public void BackToPauseMenu()
+    {
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.CloseSettings();
+        else
+        {
+            if (settingsMenuUI != null) settingsMenuUI.SetActive(false);
+            if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
+        }
     }
 }
