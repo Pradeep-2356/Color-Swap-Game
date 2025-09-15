@@ -60,9 +60,9 @@ public class MainMenu : MonoBehaviour
             highscorePanel.SetActive(false);
     }
 
-    public void OpenSettings()
+    public void QuitGame()
     {
-        Debug.Log("Open settings panel here.");
-        // TODO: enable your settings UI when ready
+        Debug.Log("Quit Game");
+        Application.Quit();
     }
 }
