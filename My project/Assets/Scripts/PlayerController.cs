@@ -45,11 +45,19 @@ public class PlayerController : MonoBehaviour
         HandleTouch();
         UpdateAnimator();
 
-            // PC activation
-    if (hasWaterGun && Input.GetKeyDown(KeyCode.F))  // example: F key
+        // PC activation
+        if (hasWaterGun && Input.GetKeyDown(KeyCode.F))  // example: F key
+        {
+            ActivateWaterGun();
+        }
+
+        //score system->
+    if (!GameManager.isGameOver)
     {
-        ActivateWaterGun();
+        int distance = Mathf.FloorToInt(Time.timeSinceLevelLoad); 
+        FindObjectOfType<GameManager>().UpdateScore(distance);
     }
+
 }
 
 // Android activation via UI button
