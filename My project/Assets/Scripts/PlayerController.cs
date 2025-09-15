@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     float swipeThreshold = 80f;
 
     private int tilesPassed = 0;
-    private float forwardSpeed;
+    public float forwardSpeed;
 
     [Header("WaterGun UI")]
     public GameObject waterGunIcon;  // assign the UI Image for watergun
@@ -51,12 +51,12 @@ public class PlayerController : MonoBehaviour
             ActivateWaterGun();
         }
 
-        //score system->
-    if (!GameManager.isGameOver)
-    {
-        int distance = Mathf.FloorToInt(Time.timeSinceLevelLoad); 
-        FindObjectOfType<GameManager>().UpdateScore(distance);
-    }
+    //     //score system->
+    // if (!GameManager.isGameOver)
+    // {
+    //     int distance = Mathf.FloorToInt(Time.timeSinceLevelLoad); 
+    //     FindObjectOfType<GameManager>().UpdateScore(distance);
+    // }
 
 }
 

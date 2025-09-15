@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,39 +9,82 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Over UI")]
     public GameObject gameOverUI;
-    public TextMeshProUGUI scoreValueText;
-    public TextMeshProUGUI highScoreValueText;
-    public TextMeshProUGUI newHighScoreText;
+    public TextMeshProUGUI scoreValueText;      // final score
+    public TextMeshProUGUI highScoreValueText;  // final high score
+    public TextMeshProUGUI newHighScoreText;    // "NEW HIGH SCORE!" badge
 
     [Header("Live Score UI")]
-    public TextMeshProUGUI liveScoreText;
+    public TextMeshProUGUI liveScoreText;       // top-left live score
 
+    [Header("Player Reference")]
+    public PlayerController player;             // assign Player in Inspector
 
-    private int currentScore = 0;
+    private float currentScore = 0f;  // float for smoother increment
     private int highScore = 0;
+
+    // ⭐ Star multiplier
+    private int scoreMultiplier = 1;
+    private Coroutine multiplierRoutine;
 
     void Start()
     {
         isGameOver = false;
+        Time.timeScale = 1f;
         gameOverUI.SetActive(false);
 
         highScore = PlayerPrefs.GetInt("HighScore", 0);
-        highScoreValueText.text = highScore.ToString();
-        newHighScoreText.gameObject.SetActive(false);
+        if (highScoreValueText != null)
+            highScoreValueText.text = "High Score: " + highScore.ToString();
+
+        if (newHighScoreText != null)
+            newHighScoreText.gameObject.SetActive(false);
+
+        currentScore = 0;
+        UpdateUI();
     }
 
-    public void UpdateScore(int amount)
+    void Update()
     {
-        currentScore = amount;
+        if (isGameOver || player == null) return;
 
-        // For Game Over panel
-        scoreValueText.text = "Score: " + currentScore.ToString();
+        // 🏃 Score grows with speed & time
+        currentScore += player.forwardSpeed * Time.deltaTime * scoreMultiplier;
 
-        // For live score top-left
-        if (liveScoreText != null)
-        liveScoreText.text = "Score: " + currentScore.ToString();
+        UpdateUI();
     }
 
+    void UpdateUI()
+    {
+        int displayScore = Mathf.FloorToInt(currentScore);
+
+        // Final score
+        if (scoreValueText != null)
+            scoreValueText.text = "Score: " + displayScore.ToString();
+
+        // Live score
+        if (liveScoreText != null)
+            liveScoreText.text = "Score: " + displayScore.ToString();
+
+        // High score
+        if (highScoreValueText != null)
+            highScoreValueText.text = "High Score: " + highScore.ToString();
+    }
+
+    // ⭐ Called when player collects Star
+    public void ActivateDoubleScore(float duration)
+    {
+        if (multiplierRoutine != null)
+            StopCoroutine(multiplierRoutine);
+
+        multiplierRoutine = StartCoroutine(DoubleScoreRoutine(duration));
+    }
+
+    private IEnumerator DoubleScoreRoutine(float duration)
+    {
+        scoreMultiplier = 2;
+        yield return new WaitForSeconds(duration);
+        scoreMultiplier = 1;
+    }
 
     public static void GameOver()
     {
@@ -51,29 +95,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int amount)
-    {
-        currentScore += amount;
-        scoreValueText.text = "Score: " + currentScore.ToString();
-    }
-
     void ShowGameOver()
     {
         Time.timeScale = 0f;
         gameOverUI.SetActive(true);
 
-        scoreValueText.text = "Score: " + currentScore.ToString();
-        highScoreValueText.text = "High Score: " + highScore.ToString();
+        int finalScore = Mathf.FloorToInt(currentScore);
 
+        if (scoreValueText != null)
+            scoreValueText.text = "Score: " + finalScore.ToString();
 
-        if (currentScore > highScore)
+        if (highScoreValueText != null)
+            highScoreValueText.text = "High Score: " + highScore.ToString();
+
+        if (finalScore > highScore)
         {
-            highScore = currentScore;
+            highScore = finalScore;
             PlayerPrefs.SetInt("HighScore", highScore);
             PlayerPrefs.Save();
 
-            highScoreValueText.text = "High Score: " + highScore.ToString();
-            newHighScoreText.gameObject.SetActive(true);
+            if (highScoreValueText != null)
+                highScoreValueText.text = "High Score: " + highScore.ToString();
+
+            if (newHighScoreText != null)
+                newHighScoreText.gameObject.SetActive(true);
         }
     }
 
@@ -93,6 +138,4 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Open settings panel here.");
     }
-
-
 }

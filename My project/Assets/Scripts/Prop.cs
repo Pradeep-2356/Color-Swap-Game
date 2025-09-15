@@ -64,8 +64,14 @@ private void OnTriggerEnter(Collider other)
                 break;
 
             case PropType.Star:
-                Debug.Log("Double points");
+                Debug.Log("Double points for 5s.");
+                GameManager gm = FindObjectOfType<GameManager>();
+                if (gm != null)
+                {
+                    gm.ActivateDoubleScore(5f); // double score for 5 seconds
+                }
                 break;
+
 
             case PropType.WaterGun:
                 Debug.Log("Clears gulal clouds instantly");

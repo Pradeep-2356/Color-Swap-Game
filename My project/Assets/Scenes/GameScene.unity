@@ -3030,6 +3030,7 @@ MonoBehaviour:
   highScoreValueText: {fileID: 1924482243}
   newHighScoreText: {fileID: 888632687}
   liveScoreText: {fileID: 832956892}
+  player: {fileID: 919132148604746477}
 --- !u!1 &1458160671
 GameObject:
   m_ObjectHideFlags: 0
@@ -9088,6 +9089,7 @@ MonoBehaviour:
   tilesPerLevel: 40
   maxLevel: 10
   isDucking: 0
+  forwardSpeed: 0
   waterGunIcon: {fileID: 7549796979616226267}
   hasWaterGun: 0
   hasShield: 0
