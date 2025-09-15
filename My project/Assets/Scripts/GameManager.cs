@@ -20,32 +20,39 @@ public class GameManager : MonoBehaviour
     public PlayerController player;             
 
     [Header("Settings Panel")]
-    public GameObject settingsPanel;   // <-- assign in Inspector
+    public GameObject settingsPanel;  
+
+    [Header("Audio")]
+    public AudioSource gameOverAudio; // Assign the Game Over audio clip in Inspector
 
     private float currentScore = 0f;  
     private int highScore = 0;
     private int scoreMultiplier = 1;
     private Coroutine multiplierRoutine;
 
-    void Start()
-    {
-        isGameOver = false;
-        Time.timeScale = 1f;
-        gameOverUI.SetActive(false);
+void Start()
+{
+    isGameOver = false;
+    Time.timeScale = 1f;
+    gameOverUI.SetActive(false);
 
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false); // hide at start
+    if (settingsPanel != null)
+        settingsPanel.SetActive(false);
 
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        if (highScoreValueText != null)
-            highScoreValueText.text = "High Score: " + highScore.ToString();
+    if (gameOverAudio != null)
+        gameOverAudio.Stop(); // ensure it doesn't play at start
 
-        if (newHighScoreText != null)
-            newHighScoreText.gameObject.SetActive(false);
+    highScore = PlayerPrefs.GetInt("HighScore", 0);
+    if (highScoreValueText != null)
+        highScoreValueText.text = "High Score: " + highScore.ToString();
 
-        currentScore = 0;
-        UpdateUI();
-    }
+    if (newHighScoreText != null)
+        newHighScoreText.gameObject.SetActive(false);
+
+    currentScore = 0;
+    UpdateUI();
+}
+
 
     void Update()
     {
@@ -98,6 +105,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         gameOverUI.SetActive(true);
         SettingsManager.Instance.StopBGM(); // stop BGM on Game Over
+
+        // Play Game Over sound
+        if (gameOverAudio != null && !gameOverAudio.isPlaying)
+            gameOverAudio.Play();
 
         int finalScore = Mathf.FloorToInt(currentScore);
 
