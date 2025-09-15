@@ -15,6 +15,14 @@ public class MainMenu : MonoBehaviour
     public Animator highscoreAnimator;
     public TMP_Text highscoreText;
 
+    void Start()
+    {
+        // Initialize music state
+        isMuted = AudioListener.pause;
+        musicOnIcon.SetActive(!isMuted);
+        musicOffIcon.SetActive(isMuted);
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene("GameScene");
@@ -31,21 +39,29 @@ public class MainMenu : MonoBehaviour
 
     public void ShowHighscore()
     {
-        int score = PlayerPrefs.GetInt("Highscore", 0);
-        highscoreText.text = "" + score;
+        int score = PlayerPrefs.GetInt("HighScore", -1); // match GameManager key
+
+        if (score > 0)
+            highscoreText.text = score.ToString();
+        else
+            highscoreText.text = "No Highscore Yet";
 
         highscorePanel.SetActive(true);
-        highscoreAnimator.SetTrigger("Show");
+        if (highscoreAnimator != null)
+            highscoreAnimator.SetTrigger("Show");
     }
 
     public void HideHighscore()
     {
-        highscoreAnimator.SetTrigger("Hide");
+        if (highscoreAnimator != null)
+            highscoreAnimator.SetTrigger("Hide");
+        else
+            highscorePanel.SetActive(false);
     }
 
-    public void QuitGame()
+    public void OpenSettings()
     {
-        Application.Quit();
-        Debug.Log("Quit pressed");
+        Debug.Log("Open settings panel here.");
+        // TODO: enable your settings UI when ready
     }
 }
